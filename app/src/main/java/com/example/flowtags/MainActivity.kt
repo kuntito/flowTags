@@ -8,24 +8,26 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.zIndex
+import com.example.flowtags.data.remote.FlowApiClient
+import com.example.flowtags.data.remote.FlowApiDataSource
 import com.example.flowtags.ui.HomeScreenRoot
 import com.example.flowtags.ui.components.util.ParticleLayer
 import com.example.flowtags.ui.theme.FlowTagsTheme
 import com.example.flowtags.ui.theme.colorDeep
 import com.example.flowtags.ui.theme.colorPraise
 
+const val flowTagDebugTag = "flowTags_debug"
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val flowDs = FlowApiDataSource(
+            FlowApiClient.flowApi
+        )
 
         val flowTagsViewModel: FlowTagsViewModel by viewModels {
             FlowTagsViewModelFactory()

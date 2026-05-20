@@ -5,6 +5,9 @@ import com.example.flowtags.ui.models.HomeFragmentsState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
+// TODO start here.. pass flowDS to VM factory,
+//  fetch the tags on app launch..
+//  expose to UI
 class FlowTagsViewModel(
 
 ): ViewModel() {
