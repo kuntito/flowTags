@@ -14,7 +14,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import com.example.flowtags.ui.theme.colorBright
 import com.example.flowtags.ui.theme.colorFluster
-import com.example.flowtags.ui.theme.colorPraise
+import com.example.flowtags.ui.theme.colorRaise
 import kotlin.random.Random
 
 @Composable
@@ -22,7 +22,7 @@ fun ParticleLayer(modifier: Modifier = Modifier) {
     val particleColors = listOf(
         colorBright,
         colorFluster,
-        colorPraise
+        colorRaise
             .copy(
                 alpha = 0.8f
             ),

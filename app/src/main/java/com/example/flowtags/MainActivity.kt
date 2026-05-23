@@ -19,7 +19,7 @@ import com.example.flowtags.ui.HomeScreenRoot
 import com.example.flowtags.ui.components.util.ParticleLayer
 import com.example.flowtags.ui.theme.FlowTagsTheme
 import com.example.flowtags.ui.theme.colorDeep
-import com.example.flowtags.ui.theme.colorPraise
+import com.example.flowtags.ui.theme.colorRaise
 
 const val flowTagDebugTag = "flowTags_debug"
 class MainActivity : ComponentActivity() {
@@ -45,7 +45,7 @@ class MainActivity : ComponentActivity() {
                 colorDeep.toArgb()
             ),
             statusBarStyle = SystemBarStyle.dark(
-                colorPraise.toArgb()
+                colorRaise.toArgb()
             ),
         )
         setContent {
