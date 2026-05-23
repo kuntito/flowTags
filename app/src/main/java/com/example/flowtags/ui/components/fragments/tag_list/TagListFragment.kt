@@ -1,5 +1,6 @@
 package com.example.flowtags.ui.components.fragments.tag_list
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
@@ -18,15 +19,13 @@ fun TagListFragment(
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
         modifier = modifier
             .fillMaxSize()
         ,
     ) {
         SongTagList(
             songTags = songTagsList,
-            modifier = Modifier
-                .fillMaxSize()
-            ,
         )
     }
 }

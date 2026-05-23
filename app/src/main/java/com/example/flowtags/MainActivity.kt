@@ -14,6 +14,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.zIndex
 import com.example.flowtags.data.remote.FlowApiClient
 import com.example.flowtags.data.remote.FlowApiDataSource
+import com.example.flowtags.data.repo.RepoFlowTags
 import com.example.flowtags.ui.HomeScreenRoot
 import com.example.flowtags.ui.components.util.ParticleLayer
 import com.example.flowtags.ui.theme.FlowTagsTheme
@@ -29,8 +30,14 @@ class MainActivity : ComponentActivity() {
             FlowApiClient.flowApi
         )
 
+        val repoFlowTags = RepoFlowTags(
+            flowDs = flowDs,
+        )
+
         val flowTagsViewModel: FlowTagsViewModel by viewModels {
-            FlowTagsViewModelFactory()
+            FlowTagsViewModelFactory(
+                repoFlowTags = repoFlowTags
+            )
         }
 
         enableEdgeToEdge(

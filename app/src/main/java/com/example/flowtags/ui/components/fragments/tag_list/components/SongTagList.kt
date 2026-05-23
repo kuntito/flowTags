@@ -21,10 +21,9 @@ fun SongTagList(
 ) {
     LazyColumn(
         contentPadding = PaddingValues(vertical = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp),
+        verticalArrangement = Arrangement.spacedBy(32.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
-            .fillMaxSize()
         ,
     ) {
         items(
