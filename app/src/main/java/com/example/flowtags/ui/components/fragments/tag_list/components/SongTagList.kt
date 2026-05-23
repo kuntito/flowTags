@@ -18,6 +18,7 @@ import com.example.flowtags.ui.components.util.PreviewColumn
 fun SongTagList(
     modifier: Modifier = Modifier,
     songTags: List<SongTag>,
+    onSongTagClick: (songTag: SongTag) -> Unit,
 ) {
     LazyColumn(
         contentPadding = PaddingValues(vertical = 16.dp),
@@ -30,7 +31,8 @@ fun SongTagList(
             items = songTags
         ) { st ->
             SongTagLi(
-                songTag = st
+                songTag = st,
+                onClick = onSongTagClick,
             )
         }
     }
@@ -42,6 +44,7 @@ private fun SongTagListPreview() {
     PreviewColumn {
         SongTagList(
             songTags = dummySongTagList,
+            onSongTagClick = {},
         )
     }
 }

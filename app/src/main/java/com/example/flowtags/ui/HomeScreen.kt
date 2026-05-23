@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.flowtags.FlowTagsViewModel
+import com.example.flowtags.data.domain_models.SongTag
 import com.example.flowtags.ui.components.HomeScreenTopBar
 import com.example.flowtags.ui.components.fragments.tag_list.TagListFragment
 import com.example.flowtags.ui.components.fragments.tagging_songs.TaggingSongsFragment
@@ -21,9 +22,13 @@ fun HomeScreenRoot(
     flowTagsViewModel: FlowTagsViewModel,
 ) {
     val homeFragmentsState by flowTagsViewModel.homeFragmentsState.collectAsState()
+    val onSongTagClick = flowTagsViewModel::onSongTagClick
+    val onNavBack = flowTagsViewModel::onNavBack
 
     HomeScreen(
         homeFragmentsState = homeFragmentsState,
+        onSongTagClick = onSongTagClick,
+        onNavBack = onNavBack,
     )
 }
 
@@ -31,10 +36,15 @@ fun HomeScreenRoot(
 fun HomeScreen(
     modifier: Modifier = Modifier,
     homeFragmentsState: HomeFragmentsState,
+    onSongTagClick: (songTag: SongTag) -> Unit,
+    onNavBack: () -> Unit,
 ) {
     Scaffold(
         topBar = {
-            HomeScreenTopBar()
+            HomeScreenTopBar(
+                homeFragmentsState = homeFragmentsState,
+                navBack = onNavBack,
+            )
         },
         modifier = modifier
             .fillMaxSize()
@@ -48,11 +58,14 @@ fun HomeScreen(
             when(homeFragmentsState) {
                 is HomeFragmentsState.TagList -> {
                     TagListFragment(
-                        songTagsList = homeFragmentsState.tags
+                        songTagsList = homeFragmentsState.tags,
+                        onSongTagClick = onSongTagClick,
                     )
                 }
-                HomeFragmentsState.TaggingSongs -> {
-                    TaggingSongsFragment()
+                is HomeFragmentsState.TaggingSongs -> {
+                    TaggingSongsFragment(
+                        currentTag = homeFragmentsState.currentTag,
+                    )
                 }
             }
         }

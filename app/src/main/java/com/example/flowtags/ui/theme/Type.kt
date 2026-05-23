@@ -14,6 +14,11 @@ val baseStyle = TextStyle(
     color = fontColor,
 )
 
+val tsBlaze = baseStyle.copy(
+    fontSize = 24.sp,
+    fontWeight = FontWeight.Normal,
+)
+
 val tsOrion = baseStyle.copy(
     fontSize = 16.sp,
     fontWeight = FontWeight.Normal,

@@ -16,10 +16,12 @@ import com.example.flowtags.ui.theme.tsOrionMono
 fun SongTagLi(
     modifier: Modifier = Modifier,
     songTag: SongTag,
+    onClick: (songTag: SongTag) -> Unit,
 ) {
-    val onClick = {}
     ClickableSurface(
-        onClick = onClick,
+        onClick = {
+            onClick(songTag)
+        },
         isRippleBounded = true,
         modifier = modifier
             .padding(horizontal = 8.dp)
@@ -41,6 +43,7 @@ private fun SongTagLiPreview() {
     PreviewColumn {
         SongTagLi(
             songTag = dummySongTag,
+            onClick = {},
         )
     }
 }

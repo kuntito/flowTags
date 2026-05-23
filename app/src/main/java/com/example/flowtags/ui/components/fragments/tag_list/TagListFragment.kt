@@ -15,7 +15,8 @@ import com.example.flowtags.ui.components.util.PreviewColumn
 @Composable
 fun TagListFragment(
     modifier: Modifier = Modifier,
-    songTagsList: List<SongTag>
+    songTagsList: List<SongTag>,
+    onSongTagClick: (songTag: SongTag) -> Unit,
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -26,6 +27,7 @@ fun TagListFragment(
     ) {
         SongTagList(
             songTags = songTagsList,
+            onSongTagClick = onSongTagClick,
         )
     }
 }
@@ -36,6 +38,7 @@ private fun TagListFragmentPreview() {
     PreviewColumn {
         SongTagList(
             songTags = dummySongTagList,
+            onSongTagClick = {},
         )
     }
 }
