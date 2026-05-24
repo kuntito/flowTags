@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.dropShadow
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.shadow.Shadow
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
@@ -31,19 +32,28 @@ fun SongTaggingCard(
     modifier: Modifier = Modifier,
     albumArtBitmap: Bitmap?,
     song: Song,
+    cardColor: Color,
+    isCardAtRest: Boolean,
 ) {
     val cardShape = RoundedCornerShape(16.dp)
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
             .background(
-                color = colorRaise,
+                color = cardColor,
                 shape = cardShape,
             )
-            .border(
-                width = 1.5.dp,
-                color = colorPlatform,
-                shape = cardShape
+            .then(
+                if (isCardAtRest) {
+                    Modifier
+                        .border(
+                            width = 1.5.dp,
+                            color = colorPlatform,
+                            shape = cardShape
+                        )
+                } else {
+                    Modifier
+                }
             )
             .padding(vertical = 24.dp, horizontal = 10.dp)
 
@@ -69,10 +79,14 @@ private fun SongTaggingCardPreview() {
         R.drawable.sample_album_art,
     )
     val song = dummySong
+    val cardColor = colorRaise
+    val isCardAtRest = true
     PreviewColumn {
         SongTaggingCard(
             albumArtBitmap = imageBitmap,
             song = song,
+            cardColor = cardColor,
+            isCardAtRest = isCardAtRest,
         )
     }
 }
