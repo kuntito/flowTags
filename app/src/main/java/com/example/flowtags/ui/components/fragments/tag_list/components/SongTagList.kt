@@ -1,6 +1,7 @@
 package com.example.flowtags.ui.components.fragments.tag_list.components
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
@@ -20,20 +21,27 @@ fun SongTagList(
     songTags: List<SongTag>,
     onSongTagClick: (songTag: SongTag) -> Unit,
 ) {
-    LazyColumn(
-        contentPadding = PaddingValues(vertical = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(32.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
+    Box(
+        contentAlignment = Alignment.Center,
         modifier = modifier
+            .fillMaxSize()
         ,
     ) {
-        items(
-            items = songTags
-        ) { st ->
-            SongTagLi(
-                songTag = st,
-                onClick = onSongTagClick,
-            )
+        LazyColumn(
+            contentPadding = PaddingValues(vertical = 16.dp),
+            verticalArrangement = Arrangement.spacedBy(32.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+            ,
+        ) {
+            items(
+                items = songTags
+            ) { st ->
+                SongTagLi(
+                    songTag = st,
+                    onClick = onSongTagClick,
+                )
+            }
         }
     }
 }
