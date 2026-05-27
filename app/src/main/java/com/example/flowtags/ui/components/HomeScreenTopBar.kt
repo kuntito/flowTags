@@ -26,7 +26,6 @@ import com.example.flowtags.R
 import com.example.flowtags.ui.components.util.AppIconButton
 import com.example.flowtags.ui.components.util.PreviewColumn
 import com.example.flowtags.ui.models.HomeFragmentsState
-import com.example.flowtags.ui.models.dummyTagListFragmentState
 import com.example.flowtags.ui.theme.colorFluster
 import com.example.flowtags.ui.theme.tsBlaze
 
@@ -97,14 +96,3 @@ fun HomeScreenTopBar(
     }
 }
 
-@Preview
-@Composable
-private fun HomeScreenTopBarPreview() {
-    val homeFragmentsState = dummyTagListFragmentState
-    PreviewColumn {
-        HomeScreenTopBar(
-            navBack = {},
-            homeFragmentsState = homeFragmentsState,
-        )
-    }
-}

@@ -69,7 +69,7 @@ class SwipeAndFlingState(
 
 @Composable
 fun rememberSwipeAndFlingState(
-    dragThresholdDp: Int = 150,
+    dragThresholdDp: Int = 50,
     flingTargetDp: Int = 800,
     onFlingLeft: () -> Unit,
     onFlingRight: () -> Unit,

@@ -57,4 +57,37 @@ class FlowApiDataSource(
             }
         )
     )
+
+    suspend fun safeFetchSongsForTagging(tagId: Int) = safeApiCall(
+        ApiCallInfo(
+            "fetching songs for tagging",
+            fn = {
+                api.getSongsForTagging(tagId)
+            }
+        )
+    )
+
+    suspend fun safeAddTagToSong(songId: Int, tagId: Int) = safeApiCall(
+        ApiCallInfo(
+            "adding tag to song",
+            fn = {
+                api.addTagToSong(
+                    songId,
+                    AddTagBody(tagId = tagId)
+                )
+            }
+        )
+    )
+
+    suspend fun safeAddNotTagToSong(songId: Int, tagId: Int) = safeApiCall(
+        ApiCallInfo(
+            "adding not-tag to song",
+            fn = {
+                api.addNotTagToSong(
+                    songId,
+                    AddNotTagBody(tagId = tagId)
+                )
+            }
+        )
+    )
 }

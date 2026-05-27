@@ -1,7 +1,5 @@
 package com.example.flowtags.ui.components.fragments.tagging_songs.components
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
@@ -13,25 +11,19 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.dropShadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.shadow.Shadow
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.flowtags.R
-import com.example.flowtags.data.domain_models.Song
-import com.example.flowtags.data.domain_models.dummySong
+import com.example.flowtags.data.domain_models.SongForTagging
+import com.example.flowtags.data.domain_models.dummySongForTagging
 import com.example.flowtags.ui.components.util.PreviewColumn
 import com.example.flowtags.ui.theme.colorPlatform
 import com.example.flowtags.ui.theme.colorRaise
-import com.example.flowtags.ui.theme.colorWhite
 
 @Composable
 fun SongTaggingCard(
     modifier: Modifier = Modifier,
-    albumArtBitmap: Bitmap?,
-    song: Song,
+    song: SongForTagging,
     cardColor: Color,
     isCardAtRest: Boolean,
 ) {
@@ -56,12 +48,11 @@ fun SongTaggingCard(
                 }
             )
             .padding(vertical = 24.dp, horizontal = 10.dp)
-
             .width(304.dp)
         ,
     ) {
         AlbumArtTagging(
-            albumArtBitmap = albumArtBitmap
+            albumArtUrl = song.albumArtUrl
         )
         Spacer(modifier = Modifier.height(24.dp))
         SongTitleAndArtistTagging(
@@ -74,16 +65,11 @@ fun SongTaggingCard(
 @Preview
 @Composable
 private fun SongTaggingCardPreview() {
-    val imageBitmap = BitmapFactory.decodeResource(
-        LocalContext.current.resources,
-        R.drawable.sample_album_art,
-    )
-    val song = dummySong
+    val song = dummySongForTagging
     val cardColor = colorRaise
     val isCardAtRest = true
     PreviewColumn {
         SongTaggingCard(
-            albumArtBitmap = imageBitmap,
             song = song,
             cardColor = cardColor,
             isCardAtRest = isCardAtRest,

@@ -1,99 +1,66 @@
 package com.example.flowtags.ui.components.fragments.tagging_songs
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import com.example.flowtags.R
-import com.example.flowtags.data.domain_models.Song
+import com.example.flowtags.data.domain_models.SongForTagging
 import com.example.flowtags.data.domain_models.SongTag
-import com.example.flowtags.data.domain_models.dummySong
+import com.example.flowtags.data.domain_models.dummySongForTagging
 import com.example.flowtags.data.domain_models.dummySongTag
-import com.example.flowtags.ui.components.fragments.tagging_songs.components.SongTaggingCard
-import com.example.flowtags.ui.components.fragments.tagging_songs.components.YesNoPane
-import com.example.flowtags.ui.components.fragments.tagging_songs.components.YesNoState
+import com.example.flowtags.ui.components.fragments.tagging_songs.components.SongReadyForTagging
+import com.example.flowtags.ui.components.util.CenterSpinner
+import com.example.flowtags.ui.components.util.CenterText
+import com.example.flowtags.ui.components.util.AppErrorFrame
 import com.example.flowtags.ui.components.util.PreviewColumn
-import com.example.flowtags.ui.components.util.rememberSwipeAndFlingState
-import com.example.flowtags.ui.components.util.swipeAndFling
-import com.example.flowtags.ui.theme.colorFluster
-import com.example.flowtags.ui.theme.colorNein
-import com.example.flowtags.ui.theme.colorRaise
+import com.example.flowtags.ui.models.SongForTagFetchState
+import com.example.flowtags.ui.theme.tsOrion
 
 @Composable
 fun TaggingSongsFragment(
     modifier: Modifier = Modifier,
-    aaBitmap: Bitmap?,
-    song: Song,
+    songForTagFetchState: SongForTagFetchState,
     currentTag: SongTag,
+    onAddTagToSong: (SongForTagging, SongTag) -> Unit,
+    onAddNotTagToSong: (SongForTagging, SongTag) -> Unit,
+    navBack: () -> Unit,
 ) {
-    val onFlingLeft = {}
-    val onFlingRight = {}
-    val swipeAndFlingState = rememberSwipeAndFlingState(
-        onFlingLeft = onFlingLeft,
-        onFlingRight = onFlingRight,
-    )
-
-    val yesNoState by remember {
-        derivedStateOf {
-            when {
-                swipeAndFlingState.offsetX.value > 40f -> YesNoState.Yes
-                swipeAndFlingState.offsetX.value < -40f -> YesNoState.No
-                else -> YesNoState.Idle
-            }
-        }
-    }
-
-    val taggingCardColor by animateColorAsState(
-        targetValue = when (yesNoState) {
-            YesNoState.Yes -> colorFluster
-            YesNoState.No -> colorNein
-            YesNoState.Idle -> colorRaise
-        },
-        animationSpec = tween(150),
-        label = "cardBgColor"
-    )
-
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
+    Box(
         modifier = modifier
+            .fillMaxSize()
         ,
     ) {
-        Box(
-            contentAlignment = Alignment.Center,
-            modifier = Modifier
-                .weight(1f)
-            ,
-        ) {
-            SongTaggingCard(
-                albumArtBitmap = aaBitmap,
-                song = song,
-                cardColor = taggingCardColor,
-                isCardAtRest = swipeAndFlingState.isAtRest,
-                modifier = Modifier
-                    .swipeAndFling(
-                        swipeAndFlingState
-                    )
-
-            )
-        }
-        Box(
-            modifier = Modifier.height(96.dp)
-        ) {
-            YesNoPane(
-                yesNoState = yesNoState,
-            )
+        when (songForTagFetchState) {
+            SongForTagFetchState.Idle -> {}
+            SongForTagFetchState.Fetching -> {
+                CenterSpinner()
+            }
+            SongForTagFetchState.NoMoreSongs -> {
+                CenterText(
+                    text = "no more songs."
+                )
+            }
+            is SongForTagFetchState.SongReady -> {
+                SongReadyForTagging(
+                    songForTagging = songForTagFetchState.song,
+                    onAddTagToSong = onAddTagToSong,
+                    onAddNotTagToSong = onAddNotTagToSong,
+                    currentTag = currentTag,
+                )
+            }
+            SongForTagFetchState.Error -> {
+                AppErrorFrame(
+                    errorMessage = "sumn' wrong.. i hold my head",
+                    afterShowingErrorMessage = navBack
+                )
+            }
         }
     }
 }
@@ -101,19 +68,54 @@ fun TaggingSongsFragment(
 @Preview
 @Composable
 private fun TaggingSongsFragmentPreview() {
-    val imageBitmap = BitmapFactory.decodeResource(
-        LocalContext.current.resources,
-        R.drawable.sample_album_art,
-    )
-
-    val song = dummySong
+    val songForTagging = dummySongForTagging
     val tag = dummySongTag
 
+    var songForTagFetchState: SongForTagFetchState by remember {
+        mutableStateOf(
+            SongForTagFetchState.Idle
+        )
+    }
+
+    val toggleState: (SongForTagFetchState) -> Unit = { sfts ->
+        when (sfts) {
+            SongForTagFetchState.Idle -> {
+                songForTagFetchState = SongForTagFetchState.Fetching
+            }
+            SongForTagFetchState.Fetching -> {
+                songForTagFetchState = SongForTagFetchState.SongReady(
+                    song = songForTagging
+                )
+            }
+            is SongForTagFetchState.SongReady -> {
+                songForTagFetchState = SongForTagFetchState.NoMoreSongs
+            }
+            SongForTagFetchState.NoMoreSongs -> {
+                songForTagFetchState = SongForTagFetchState.Error
+            }
+            SongForTagFetchState.Error -> {
+                songForTagFetchState = SongForTagFetchState.Idle
+            }
+        }
+    }
+
+    val navBack = {}
+
     PreviewColumn {
+        TextButton(
+            onClick = { toggleState(songForTagFetchState) }
+        ) {
+            Text(
+                text = "toggle state",
+                style = tsOrion,
+            )
+        }
         TaggingSongsFragment(
-            aaBitmap = imageBitmap,
-            song = song,
-            currentTag = tag
+            songForTagFetchState = songForTagFetchState,
+            currentTag = tag,
+            onAddTagToSong = { _, _ -> },
+            onAddNotTagToSong = { _, _ -> },
+            navBack = navBack,
         )
     }
 }

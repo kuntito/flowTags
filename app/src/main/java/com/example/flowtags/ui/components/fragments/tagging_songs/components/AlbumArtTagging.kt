@@ -13,15 +13,17 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import com.example.flowtags.R
 import com.example.flowtags.ui.components.util.PreviewColumn
 
 @Composable
 fun AlbumArtTagging(
     modifier: Modifier = Modifier,
-    albumArtBitmap: Bitmap?,
+    albumArtUrl: String,
     size: Float = 264f,
 ) {
     val shape = RoundedCornerShape(8.dp)
@@ -30,30 +32,28 @@ fun AlbumArtTagging(
             .size(size.dp)
             .clip(shape)
     ) {
-        albumArtBitmap?.let {
-            Image(
-                bitmap = it.asImageBitmap(),
-                contentDescription = "album art",
-                contentScale = ContentScale.Fit,
-                modifier = Modifier
-                    .fillMaxSize()
-                ,
-            )
-        }
+        AsyncImage(
+            model = albumArtUrl,
+            contentDescription = null,
+            error = painterResource(
+                R.drawable.album_art_placeholder
+            ),
+            contentScale = ContentScale.Fit,
+            modifier = Modifier
+                .fillMaxSize()
+        )
     }
 }
 
 @Preview
 @Composable
 private fun AlbumArtTaggingPreview() {
-    val imageBitmap = BitmapFactory.decodeResource(
-        LocalContext.current.resources,
-        R.drawable.sample_album_art,
-    )
+    val size = 320
+    val albumArtUrl = "https://picsum.photos/$size/$size"
 
     PreviewColumn {
         AlbumArtTagging(
-            albumArtBitmap = imageBitmap
+            albumArtUrl = albumArtUrl,
         )
     }
 }
