@@ -16,7 +16,6 @@ import com.example.flowtags.ui.components.HomeScreenTopBar
 import com.example.flowtags.ui.components.fragments.tag_list.TagListFragment
 import com.example.flowtags.ui.components.fragments.tagging_songs.TaggingSongsFragment
 import com.example.flowtags.ui.models.HomeFragmentsState
-import com.example.flowtags.ui.models.SongForTagFetchState
 import com.example.flowtags.ui.models.TagListState
 
 @Composable
@@ -30,7 +29,6 @@ fun HomeScreenRoot(
     val onNavBack = flowTagsViewModel::onNavBack
     val addTagToSong = flowTagsViewModel::addTagToSong
     val addNotTagToSong = flowTagsViewModel::addNotTagToSong
-//    val songForTagFetchState by flowTagsViewModel.songForTagFetchState.collectAsState()
 
     HomeScreen(
         homeFragmentsState = homeFragmentsState,
@@ -40,7 +38,6 @@ fun HomeScreenRoot(
         onNavBack = onNavBack,
         addTagToSong = addTagToSong,
         addNotTagToSong = addNotTagToSong,
-//        songForTagFetchState = songForTagFetchState,
     )
 }
 
@@ -54,7 +51,6 @@ fun HomeScreen(
     onNavBack: () -> Unit,
     addTagToSong: (SongForTagging, SongTag) -> Unit,
     addNotTagToSong: (SongForTagging, SongTag) -> Unit,
-//    songForTagFetchState: SongForTagFetchState,
 ) {
     Scaffold(
         topBar = {

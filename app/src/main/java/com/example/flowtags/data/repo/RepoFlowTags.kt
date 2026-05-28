@@ -22,4 +22,14 @@ class RepoFlowTags(
             it.toSongForTagging()
         }
     }
+
+    suspend fun addTagToSong(songId: Int, tagId: Int): Boolean {
+        val response = flowDs.safeAddTagToSong(songId, tagId)
+        return response?.success == true
+    }
+
+    suspend fun addNotTagToSong(songId: Int, tagId: Int): Boolean {
+        val response = flowDs.safeAddNotTagToSong(songId, tagId)
+        return response?.success == true
+    }
 }

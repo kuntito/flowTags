@@ -24,9 +24,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.flowtags.R
 import com.example.flowtags.ui.components.util.AppIconButton
-import com.example.flowtags.ui.components.util.PreviewColumn
+import com.example.flowtags.ui.components.util.blinkable
 import com.example.flowtags.ui.models.HomeFragmentsState
 import com.example.flowtags.ui.theme.colorFluster
+import com.example.flowtags.ui.theme.colorWhite
 import com.example.flowtags.ui.theme.tsBlaze
 
 @Composable
@@ -74,18 +75,15 @@ fun HomeScreenTopBar(
                         .weight(1f)
                     ,
                 ) {
-                    Icon(
-                        painter = painterResource(R.drawable.ic_tag),
-                        contentDescription = null,
-                        tint = Color.Unspecified,
-                    )
-                    Spacer(modifier = Modifier.width(10.dp))
                     Text(
                         text = homeFragmentsState.currentTag.tagName,
                         style = tsBlaze
                             .copy(
                                 fontWeight = FontWeight.Bold
-                            )
+                            ),
+                        color = colorFluster,
+                        modifier = Modifier
+                            .blinkable()
                     )
                 }
             }

@@ -101,16 +101,23 @@ class FlowTagsViewModel(
         songForTagging: SongForTagging,
         tag: SongTag,
     ) {
-        // TODO add tag to song
+        viewModelScope.launch {
+            repoFlowTags.addTagToSong(songForTagging.songId, tag.tagId)
+        }
         songForTagFetchManager?.emitNextSong()
-        Log.d(flowTagDebugTag, "swiped right")
     }
 
     fun addNotTagToSong(
         songForTagging: SongForTagging,
         tag: SongTag,
     ) {
-        // TODO add tag to song
+        viewModelScope.launch {
+            repoFlowTags
+                .addNotTagToSong(
+                    songForTagging.songId,
+                    tag.tagId
+                )
+        }
         songForTagFetchManager?.emitNextSong()
     }
 }

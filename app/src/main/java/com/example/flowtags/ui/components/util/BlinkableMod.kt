@@ -1,0 +1,39 @@
+package com.example.flowtags.ui.components.util
+
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
+
+/**
+ * provides the blinking effect on a composable.
+ * it continuously increases and reduces opacity.
+ * */
+@Composable
+fun Modifier.blinkable(
+    animationDurationMillis: Int = 700
+): Modifier {
+    var isBeingPressed by remember { mutableStateOf(false) }
+    val infiniteTransition = rememberInfiniteTransition()
+    val alphaFloat by infiniteTransition.animateFloat(
+        initialValue = 0.85f,
+        targetValue = 0.2f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(animationDurationMillis),
+            repeatMode = RepeatMode.Reverse
+        )
+    )
+
+    return this
+        .alpha(
+            if (isBeingPressed) 1f else alphaFloat
+        )
+}

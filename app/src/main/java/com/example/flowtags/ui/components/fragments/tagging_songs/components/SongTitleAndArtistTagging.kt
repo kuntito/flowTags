@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.flowtags.data.domain_models.dummySongTag
@@ -37,14 +38,15 @@ fun SongTitleAndArtistTagging(
             style = tsMatador
                 .copy(
                     fontWeight = FontWeight.SemiBold,
-                )
-            ,
+                ),
+            textAlign = TextAlign.Center,
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
             text = artistStr,
             color = textColor,
             style = tsOrion,
+            textAlign = TextAlign.Center,
         )
     }
 }

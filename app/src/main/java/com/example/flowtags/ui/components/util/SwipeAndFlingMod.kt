@@ -15,6 +15,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
 @Stable
@@ -45,21 +46,25 @@ class SwipeAndFlingState(
     }
 
     val fling: (direction: Float) -> Unit = { direction ->
+        val flingDuration = 500
         coroutineScope.launch {
-            launch {
-                offsetX.animateTo(
-                    flingTarget * direction,
-                    animationSpec = tween(300)
-                )
+            coroutineScope {
+                launch {
+                    offsetX.animateTo(
+                        flingTarget * direction,
+                        animationSpec = tween(flingDuration)
+                    )
+                }
+                launch {
+                    rotation.animateTo(
+                        30f * direction,
+                        animationSpec = tween(flingDuration),
+                    )
+                }
             }
-            launch {
-                rotation.animateTo(
-                    30f * direction,
-                    animationSpec = tween(300),
-                )
-            }
+            // both animations done, then fling
+            if (direction > 0) onFlingRight() else onFlingLeft()
         }
-         if (direction > 0) onFlingRight() else onFlingLeft()
     }
 
     val isAtRest: Boolean
